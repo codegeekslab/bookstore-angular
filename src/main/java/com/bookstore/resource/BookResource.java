@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +36,7 @@ public class BookResource {
 	}
 	
 	@RequestMapping(value="/add/image", method=RequestMethod.POST)
-	public ResponseEntity upload(
-			@RequestParam("id") Long id,
-			HttpServletResponse response, HttpServletRequest request
-			){
+	public ResponseEntity upload(@RequestParam("id") Long id,HttpServletResponse response, HttpServletRequest request){
 		try {
 			Book book = bookService.findOne(id);
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -57,5 +55,10 @@ public class BookResource {
 			e.printStackTrace();
 			return new ResponseEntity("Upload failed!", HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping (value="/bookList", method=RequestMethod.GET)
+	public List<Book> getBookList() {
+		return bookService.findAll();
 	}
 }
